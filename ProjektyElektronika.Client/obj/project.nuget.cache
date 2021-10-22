@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "NbGopwbNhD12BBhVDaoB0ShC7ebDszA4j09Eg95sDwOOxMBF+uthM311UvJAjNclJO+pgkC2B5UFywFexiWbXA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\majta\\source\\repos\\ProjektyElektronika\\ProjektyElektronika.Client\\ProjektyElektronika.Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\majta\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

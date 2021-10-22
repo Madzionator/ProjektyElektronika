@@ -1,0 +1,9 @@
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\bin\Debug\netstandard2.0\ProjektyElektronika.Shared.deps.json
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\bin\Debug\netstandard2.0\ProjektyElektronika.Shared.dll
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\bin\Debug\netstandard2.0\ProjektyElektronika.Shared.pdb
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.csprojAssemblyReference.cache
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.AssemblyInfoInputs.cache
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.AssemblyInfo.cs
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.csproj.CoreCompileInputs.cache
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.dll
+C:\Users\majta\source\repos\ProjektyElektronika\ProjektyElektronika.Shared\obj\Debug\netstandard2.0\ProjektyElektronika.Shared.pdb
