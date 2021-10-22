@@ -1,17 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using ProjektyElektronika.Client.ViewModels;
+using ProjektyElektronika.Client.Views;
 
 namespace ProjektyElektronika.Client
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public App()
+        {
+            _serviceProvider = AddServices().BuildServiceProvider();
+        }
+
+        private IServiceCollection AddServices()
+        {
+            var services = new ServiceCollection();
+
+            //add service definitions here
+
+            return services;
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var viewModel = ActivatorUtilities.GetServiceOrCreateInstance<MainViewModel>(_serviceProvider);
+            var view = new MainWindow
+            {
+                DataContext = viewModel
+            };
+            view.Show();
+
+            base.OnStartup(e);
+        }
     }
 }
