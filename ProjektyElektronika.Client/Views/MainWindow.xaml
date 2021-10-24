@@ -7,13 +7,41 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="50,75,0,0" Text="{Binding N1,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Margin="50,115,0,0" Text="{Binding N1}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Margin="50,155,0,0" Text="{Binding N1}" IsReadOnly="True"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Margin="50,195,0,0" Text="{Binding N1}" IsEnabled="False" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Command="{Binding IncrementCommand}" Content="Button" HorizontalAlignment="Left" Margin="130,240,0,0" VerticalAlignment="Top"/>
-        <Button Command="{Binding IncrementCommand}" Content="Button" HorizontalAlignment="Left" Margin="150,260,0,0" VerticalAlignment="Top"/>
-        <Button Command="{Binding IncrementCommand}" Content="Button" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button Command="{Binding IncrementCommand}" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,10" Width="58"/>
+        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding Projects, FallbackValue=asdf}" >
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="2">
+                        <Grid Margin="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold"/>
+                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Right"/>
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Authors}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Index}" />
+                                            <TextBlock Text="{Binding Name}"  Margin="2,0,10,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>

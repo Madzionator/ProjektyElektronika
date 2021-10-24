@@ -12,6 +12,9 @@ namespace ProjektyElektronika.Client
 
         public App()
         {
+            var ci = new System.Globalization.CultureInfo("pl-PL");
+            System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
             _serviceProvider = AddServices().BuildServiceProvider();
         }
 
