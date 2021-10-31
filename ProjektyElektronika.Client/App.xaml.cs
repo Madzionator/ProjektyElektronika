@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using ProjektyElektronika.Client.Data;
 using ProjektyElektronika.Client.ViewModels;
 using ProjektyElektronika.Client.Views;
 
@@ -23,7 +24,7 @@ namespace ProjektyElektronika.Client
             var services = new ServiceCollection();
 
             //add service definitions here
-
+            services.AddScoped<IDataProvider, DataProvider>();
             return services;
         }
 

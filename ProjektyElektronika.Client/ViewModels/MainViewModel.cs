@@ -10,15 +10,17 @@ namespace ProjektyElektronika.Client.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel()
+        private readonly IDataProvider _dataProvider;
+
+        public MainViewModel(IDataProvider dataProvider)
         {
-            IncrementCommand = new AsyncCommand(Execute);
+            _dataProvider = dataProvider;
+            IncrementCommand = new AsyncCommand(LoadList);
         }
 
-        private async Task Execute()
+        private async Task LoadList()
         {
-            var dataProvider = new DataProvider();
-            Projects = await dataProvider.GetProjectList();
+            Projects = await _dataProvider.GetProjectList();
         }
 
         private List<ProjectDto> _projects = new();
