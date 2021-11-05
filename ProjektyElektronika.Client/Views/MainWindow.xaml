@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
         mc:Ignorable="d"
+        x:Name="root"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,7 +23,8 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold"/>
-                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Center"/>
+                            <Button Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" CommandParameter="{Binding Id}" Content="Pobierz" HorizontalAlignment="Right"></Button>
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding Authors}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>

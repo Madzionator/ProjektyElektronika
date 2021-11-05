@@ -24,5 +24,14 @@ namespace ProjektyElektronika.Client.Data
                 return await _offlineDataProvider.GetProjectList();
             }
         }
+
+        public async Task DownloadProject(int projectId)
+        {
+            try
+            {
+                await _onlineDataProvider.DownloadProject(projectId);
+            }
+            catch { }
+        }
     }
 }

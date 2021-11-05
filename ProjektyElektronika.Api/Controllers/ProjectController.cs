@@ -41,5 +41,31 @@ namespace ProjektyElektronika.Api.Controllers
                 })
                 .ToList();
         }
+
+        [HttpGet("download-request/{projectId}")]
+        public IActionResult DownloadRequest([FromRoute] int projectId)
+        {
+            var project = _context.Projects.Find(projectId);
+            if (project == null)
+                return NotFound();
+
+            var filename = project.Address.Split(new []{'/', '\\'})[^1];
+            var extension = filename.Split('.')[^1];
+
+            var file = new FileContentResult(System.IO.File.ReadAllBytes(project.Address), GetMimeType(extension))
+                {
+                    FileDownloadName = filename
+                };
+            Response.Headers.Add("filename", filename);
+            return file;
+        }
+
+        private string GetMimeType(string extension) => extension switch
+        {
+            "pdf" => "application/pdf",
+            "rar" => "application/x-rar-compressed",
+            "zip" => "application/zip",
+            _ => throw new NotImplementedException()
+        };
     }
 }

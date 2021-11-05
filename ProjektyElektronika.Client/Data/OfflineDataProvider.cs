@@ -24,6 +24,11 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
+        public Task DownloadProject(int projectId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SaveProjectList(List<ProjectDto> projects)
         {
             var json = JsonConvert.SerializeObject(projects, Formatting.Indented);

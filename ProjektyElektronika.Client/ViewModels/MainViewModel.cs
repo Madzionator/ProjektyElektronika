@@ -16,6 +16,12 @@ namespace ProjektyElektronika.Client.ViewModels
         {
             _dataProvider = dataProvider;
             IncrementCommand = new AsyncCommand(LoadList);
+            DownloadProjectCommand = new AsyncCommand<int>(DownloadProject);
+        }
+
+        private async Task DownloadProject(int arg)
+        {
+            await _dataProvider.DownloadProject(arg);
         }
 
         private async Task LoadList()
@@ -39,5 +45,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
 
         public ICommand IncrementCommand { get; }
+        public ICommand DownloadProjectCommand { get; }
     }
 }
