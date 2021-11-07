@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -27,7 +29,15 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task OpenProject(ProjectDto project)
         {
-            await _dataProvider.OpenProject(project);
+            try
+            {
+                await _dataProvider.OpenProject(project);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd. Treść błędu: {ex}");
+            }
+
         }
 
         private async Task LoadList()

@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProjektyElektronika.Shared.DTO;
@@ -10,7 +11,7 @@ namespace ProjektyElektronika.Client.Data
     class OfflineDataProvider
     {
         private const string path = "offlineData.json";
-        public async Task<List<ProjectDto>> GetProjectList()
+        public List<ProjectDto> GetProjectList()
         {
             try
             {
@@ -20,7 +21,7 @@ namespace ProjektyElektronika.Client.Data
             }
             catch
             {
-                return new List<ProjectDto>();
+                return new ();
             }
         }
 
@@ -32,15 +33,22 @@ namespace ProjektyElektronika.Client.Data
 
         public async Task AddProjectToList(ProjectDto project)
         {
-            var projects = await GetProjectList();
+            var projects = GetProjectList();
             projects.Add(project);
             SaveProjectList(projects);
         }
 
         public async Task OpenProject(ProjectDto project)
         {
-            var fullPath = new FileInfo(project.Address).DirectoryName;
-            System.Diagnostics.Process.Start(fullPath);
+            project.Address ??= GetProjectList().FirstOrDefault(x => x.Id == project.Id)?.Address;
+            var file = new FileInfo(project.Address);
+
+            var startInfo = new ProcessStartInfo(file.FullName)
+            {
+                UseShellExecute = true
+            };
+
+            Process.Start(startInfo);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ProjektyElektronika.Client.Data
             }
             catch
             {
-                return await _offlineDataProvider.GetProjectList();
+                return _offlineDataProvider.GetProjectList();
             }
         }
 
