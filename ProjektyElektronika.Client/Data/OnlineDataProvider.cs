@@ -9,7 +9,7 @@ using ProjektyElektronika.Shared.DTO;
 
 namespace ProjektyElektronika.Client.Data
 {
-    class OnlineDataProvider : IDataProvider
+    class OnlineDataProvider
     {
         public async Task<List<ProjectDto>> GetProjectList()
         {
@@ -23,14 +23,15 @@ namespace ProjektyElektronika.Client.Data
             return projects;
         }
 
-        public async Task DownloadProject(int projectId)
+        public async Task DownloadProject(ProjectDto project)
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:5001/");
-            var response = await client.GetAsync($"project/download-request/{projectId}");
+            var response = await client.GetAsync($"project/download-request/{project.Id}");
 
             var filename = response.Headers.GetValues("filename").First();
-            var path = $"data/{projectId}/{filename}";
+            var path = $"data/{project.Id}/{filename}";
+            project.Address = path;
             var file = new FileInfo(path);
             file.Directory.Create();
             using (var fs = new FileStream(path, FileMode.CreateNew))

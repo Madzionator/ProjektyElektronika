@@ -16,7 +16,6 @@ namespace ProjektyElektronika.Client.Data
             try
             {
                 var projects = await _onlineDataProvider.GetProjectList();
-                _offlineDataProvider.SaveProjectList(projects);
                 return projects;
             }
             catch
@@ -25,13 +24,19 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
-        public async Task DownloadProject(int projectId)
+        public async Task DownloadProject(ProjectDto project)
         {
             try
             {
-                await _onlineDataProvider.DownloadProject(projectId);
+                await _onlineDataProvider.DownloadProject(project);
+                await _offlineDataProvider.AddProjectToList(project);
             }
             catch { }
+        }
+
+        public async Task OpenProject(ProjectDto project)
+        {
+            await _offlineDataProvider.OpenProject(project);
         }
     }
 }
