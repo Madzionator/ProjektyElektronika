@@ -10,5 +10,6 @@ namespace ProjektyElektronika.Shared.DTO
         public DateTime DateCreated { get; set; }
         public ICollection<AuthorDto> Authors { get; set; }
         public string Address { get; set; }
+        public bool IsDownloaded { get; set; }
     }
 }

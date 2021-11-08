@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjektyElektronika.Shared.DTO;
@@ -15,8 +16,15 @@ namespace ProjektyElektronika.Client.Data
         {
             try
             {
+                var dict = _offlineDataProvider.GetProjectList().ToDictionary(x=>x.Id, x=>x);
                 var projects = await _onlineDataProvider.GetProjectList();
-                return projects;
+                foreach (var project in projects)
+                {
+                    if(!dict.ContainsKey(project.Id))
+                        dict.Add(project.Id, project);
+                }
+
+                return dict.Values.ToList();
             }
             catch
             {
@@ -31,7 +39,10 @@ namespace ProjektyElektronika.Client.Data
                 await _onlineDataProvider.DownloadProject(project);
                 await _offlineDataProvider.AddProjectToList(project);
             }
-            catch { }
+            catch
+            {
+
+            }
         }
 
         public async Task OpenProject(ProjectDto project)

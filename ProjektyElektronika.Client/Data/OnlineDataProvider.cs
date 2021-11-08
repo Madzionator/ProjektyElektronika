@@ -31,13 +31,22 @@ namespace ProjektyElektronika.Client.Data
 
             var filename = response.Headers.GetValues("filename").First();
             var path = $"data/{project.Id}/{filename}";
+
             project.Address = path;
             var file = new FileInfo(path);
+
+            if (file.Directory.Exists)
+            {
+                file.Directory.Delete(true);
+            }
             file.Directory.Create();
+
             using (var fs = new FileStream(path, FileMode.CreateNew))
             {
                 await response.Content.CopyToAsync(fs);
             }
+
+            project.IsDownloaded = true;
         }
     }
 }

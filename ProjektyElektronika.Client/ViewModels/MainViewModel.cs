@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,14 +18,15 @@ namespace ProjektyElektronika.Client.ViewModels
         public MainViewModel(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
-            IncrementCommand = new AsyncCommand(LoadList);
             DownloadProjectCommand = new AsyncCommand<ProjectDto>(DownloadProject);
             OpenProjectCommand = new AsyncCommand<ProjectDto>(OpenProject);
+            LoadList();
         }
 
         private async Task DownloadProject(ProjectDto project)
         {
             await _dataProvider.DownloadProject(project);
+            Projects = Projects.ToList();
         }
 
         private async Task OpenProject(ProjectDto project)
