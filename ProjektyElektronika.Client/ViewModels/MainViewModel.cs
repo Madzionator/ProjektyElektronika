@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -15,13 +18,28 @@ namespace ProjektyElektronika.Client.ViewModels
         public MainViewModel(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
-            IncrementCommand = new AsyncCommand(LoadList);
-            DownloadProjectCommand = new AsyncCommand<int>(DownloadProject);
+            DownloadProjectCommand = new AsyncCommand<ProjectDto>(DownloadProject);
+            OpenProjectCommand = new AsyncCommand<ProjectDto>(OpenProject);
+            LoadList();
         }
 
-        private async Task DownloadProject(int arg)
+        private async Task DownloadProject(ProjectDto project)
         {
-            await _dataProvider.DownloadProject(arg);
+            await _dataProvider.DownloadProject(project);
+            Projects = Projects.ToList();
+        }
+
+        private async Task OpenProject(ProjectDto project)
+        {
+            try
+            {
+                await _dataProvider.OpenProject(project);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd. Treść błędu: {ex}");
+            }
+
         }
 
         private async Task LoadList()
@@ -46,5 +64,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
         public ICommand IncrementCommand { get; }
         public ICommand DownloadProjectCommand { get; }
+        public ICommand OpenProjectCommand { get; }
     }
 }

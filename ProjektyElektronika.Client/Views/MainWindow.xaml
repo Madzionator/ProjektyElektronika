@@ -4,27 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
+        xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
         mc:Ignorable="d"
         x:Name="root"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding IncrementCommand}" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,10" Width="58"/>
-        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding Projects, FallbackValue=asdf}" >
+
+        <StackPanel Margin="8">
+            <TextBlock Text="Wyszukaj:" Margin="0,0,0,3"/>
+            <TextBox Height="25" FontSize="14" MaxLines="1"/>
+        </StackPanel>
+        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding Projects}" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="2">
-                        <Grid Margin="2">
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
+                        <Grid Margin="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold"/>
-                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Center"/>
-                            <Button Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" CommandParameter="{Binding Id}" Content="Pobierz" HorizontalAlignment="Right"></Button>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition MaxWidth="150" MinWidth="50" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+
+                            <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" 
+                                    CommandParameter="{Binding .}" Content="Pobierz" Background="#63BEDE" FontSize="14"
+                                    Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
+                            <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
+                                    CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold"
+                                    Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding Authors}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
