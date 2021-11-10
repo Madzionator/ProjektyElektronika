@@ -42,9 +42,37 @@ namespace ProjektyElektronika.Client.ViewModels
 
         }
 
+        private void UseFilter()
+        {
+            if (_filterString.Length < 1)
+            {
+                FilteredProjects = Projects.ToList();
+                return;
+            }
+
+            bool Filter(ProjectDto project)
+            {
+                if (project.Title.Contains(FilterString, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+                if (project.Authors.Any(author => author.Name.Contains(FilterString, StringComparison.InvariantCultureIgnoreCase)))
+                    return true;
+                if (project.Authors.Any(author => author.Index.ToString().Contains(FilterString, StringComparison.InvariantCultureIgnoreCase)))
+                    return true;
+                if (project.DateCreated.ToString("dd MMMM yyyy")
+                    .Contains(FilterString, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+                return false;
+            }
+
+            FilteredProjects = Projects.Where(Filter).ToList();
+        }
+
+       
+
         private async Task LoadList()
         {
             Projects = await _dataProvider.GetProjectList();
+            FilteredProjects = Projects.ToList();
         }
 
         private List<ProjectDto> _projects = new();
@@ -54,15 +82,20 @@ namespace ProjektyElektronika.Client.ViewModels
             set => SetProperty(ref _projects, value);
         }
 
-        private int _n1;
-        public int N1
+        private List<ProjectDto> _filteredProjects = new();
+        public List<ProjectDto> FilteredProjects
         {
-            get => _n1;
-            set => SetProperty(ref _n1, value);
+            get => _filteredProjects;
+            set => SetProperty(ref _filteredProjects, value);
         }
 
+        private string _filterString;
+        public string FilterString
+        {
+            get => _filterString;
+            set => SetProperty(ref _filterString, value, onChanged:UseFilter);
+        }
 
-        public ICommand IncrementCommand { get; }
         public ICommand DownloadProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
     }

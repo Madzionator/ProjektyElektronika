@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using ProjektyElektronika.Client.Data;
@@ -16,6 +17,10 @@ namespace ProjektyElektronika.Client
             var ci = new System.Globalization.CultureInfo("pl-PL");
             System.Threading.Thread.CurrentThread.CurrentCulture = ci;
             System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
+
+            //fix language in UI
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(System.Windows.Markup.XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
             _serviceProvider = AddServices().BuildServiceProvider();
         }
 

@@ -19,9 +19,9 @@
 
         <StackPanel Margin="8">
             <TextBlock Text="Wyszukaj:" Margin="0,0,0,3"/>
-            <TextBox Height="25" FontSize="14" MaxLines="1"/>
+            <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="14" MaxLines="1"/>
         </StackPanel>
-        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding Projects}" >
+        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding FilteredProjects}" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
