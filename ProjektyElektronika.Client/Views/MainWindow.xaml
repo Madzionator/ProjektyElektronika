@@ -17,9 +17,18 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
+
         <StackPanel Margin="8">
             <TextBlock Text="Wyszukaj:" Margin="0,0,0,3"/>
-            <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="14" MaxLines="1"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="14" MaxLines="1"/>
+                <Button Grid.Column="2" Content="Dodaj projekt" Command="{Binding OpenAddProjectWindowCommand}"/>
+            </Grid>
         </StackPanel>
         <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding FilteredProjects}" >
             <ItemsControl.ItemTemplate>

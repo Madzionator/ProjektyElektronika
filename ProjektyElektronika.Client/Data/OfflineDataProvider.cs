@@ -4,19 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ProjektyElektronika.Shared.DTO;
+using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.Data
 {
     class OfflineDataProvider
     {
         private const string path = "offlineData.json";
-        public List<ProjectDto> GetProjectList()
+        public List<Project> GetProjectList()
         {
             try
             {
                 var json = File.ReadAllText(path);
-                var projects = JsonConvert.DeserializeObject<List<ProjectDto>>(json);
+                var projects = JsonConvert.DeserializeObject<List<Project>>(json);
                 return projects;
             }
             catch
@@ -25,20 +25,20 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
-        public void SaveProjectList(List<ProjectDto> projects)
+        public void SaveProjectList(List<Project> projects)
         {
             var json = JsonConvert.SerializeObject(projects, Formatting.Indented);
             File.WriteAllText(path, json);
         }
 
-        public async Task AddProjectToList(ProjectDto project)
+        public async Task AddProjectToList(Project project)
         {
             var projects = GetProjectList();
             projects.Add(project);
             SaveProjectList(projects);
         }
 
-        public async Task OpenProject(ProjectDto project)
+        public async Task OpenProject(Project project)
         {
             project.Address ??= GetProjectList().FirstOrDefault(x => x.Id == project.Id)?.Address;
             var file = new FileInfo(project.Address);

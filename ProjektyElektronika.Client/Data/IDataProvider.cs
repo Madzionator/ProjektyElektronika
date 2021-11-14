@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ProjektyElektronika.Shared.DTO;
+using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.Data
 {
     public interface IDataProvider
     {
-        Task<List<ProjectDto>> GetProjectList();
-        Task DownloadProject(ProjectDto project);
-        Task OpenProject(ProjectDto project);
+        Task<List<Project>> GetProjectList();
+        Task DownloadProject(Project project);
+        Task OpenProject(Project project);
     }
 }

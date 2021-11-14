@@ -7,7 +7,8 @@ using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using ProjektyElektronika.Client.Data;
-using ProjektyElektronika.Shared.DTO;
+using ProjektyElektronika.Client.Models;
+using ProjektyElektronika.Client.Views;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
@@ -18,18 +19,29 @@ namespace ProjektyElektronika.Client.ViewModels
         public MainViewModel(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
-            DownloadProjectCommand = new AsyncCommand<ProjectDto>(DownloadProject);
-            OpenProjectCommand = new AsyncCommand<ProjectDto>(OpenProject);
+            DownloadProjectCommand = new AsyncCommand<Project>(DownloadProject);
+            OpenProjectCommand = new AsyncCommand<Project>(OpenProject);
+            OpenAddProjectWindowCommand = new Command(OpenAddProjectWindow);
             LoadList();
         }
 
-        private async Task DownloadProject(ProjectDto project)
+        private void OpenAddProjectWindow()
+        {
+            var viewModel = new AddProjectViewModel();
+            var view = new AddProjectWindow
+            {
+                DataContext = viewModel
+            };
+            view.ShowDialog();
+        }
+
+        private async Task DownloadProject(Project project)
         {
             await _dataProvider.DownloadProject(project);
             Projects = Projects.ToList();
         }
 
-        private async Task OpenProject(ProjectDto project)
+        private async Task OpenProject(Project project)
         {
             try
             {
@@ -50,7 +62,7 @@ namespace ProjektyElektronika.Client.ViewModels
                 return;
             }
 
-            bool Filter(ProjectDto project)
+            bool Filter(Project project)
             {
                 if (project.Title.Contains(FilterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
@@ -58,7 +70,7 @@ namespace ProjektyElektronika.Client.ViewModels
                     return true;
                 if (project.Authors.Any(author => author.Index.ToString().Contains(FilterString, StringComparison.InvariantCultureIgnoreCase)))
                     return true;
-                if (project.DateCreated.ToString("dd MMMM yyyy")
+                if (project.DateCreated.Value.ToString("dd MMMM yyyy")
                     .Contains(FilterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
                 return false;
@@ -75,15 +87,15 @@ namespace ProjektyElektronika.Client.ViewModels
             FilteredProjects = Projects.ToList();
         }
 
-        private List<ProjectDto> _projects = new();
-        public List<ProjectDto> Projects
+        private List<Project> _projects = new();
+        public List<Project> Projects
         {
             get => _projects;
             set => SetProperty(ref _projects, value);
         }
 
-        private List<ProjectDto> _filteredProjects = new();
-        public List<ProjectDto> FilteredProjects
+        private List<Project> _filteredProjects = new();
+        public List<Project> FilteredProjects
         {
             get => _filteredProjects;
             set => SetProperty(ref _filteredProjects, value);
@@ -98,5 +110,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
         public ICommand DownloadProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
+        public ICommand OpenAddProjectWindowCommand { get; }
     }
 }

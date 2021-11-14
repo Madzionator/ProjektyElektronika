@@ -17,9 +17,5 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ProjektyElektronika.Shared\ProjektyElektronika.Shared.csproj" />
-  </ItemGroup>
-
 
 </Project>

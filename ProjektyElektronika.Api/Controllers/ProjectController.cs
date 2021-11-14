@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ProjektyElektronika.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjektyElektronika.Api.DateBase;
-using ProjektyElektronika.Api.Models;
-using ProjektyElektronika.Shared.DTO;
+using ProjektyElektronika.Api.Models.DTO;
 
 namespace ProjektyElektronika.Api.Controllers
 {
