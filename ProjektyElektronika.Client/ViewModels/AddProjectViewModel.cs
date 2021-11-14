@@ -7,11 +7,12 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using ProjektyElektronika.Client.Data;
 using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
-    class AddProjectViewModel : BaseViewModel
+    public class AddProjectViewModel : BaseViewModel
     {
         public AddProjectViewModel()
         {
@@ -37,10 +38,9 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task AddProject()
         {
-            var xd = new MultipartFormDataContent();
-            //xd.Add("name", Project.)
-
-            //xd.Add("file", Project.Address);
+            var fileuploader = new ProjectUploader();
+            await fileuploader.UploadProject(Project);
+            CloseWindow();
         }
 
         private Project _project = new ();
@@ -61,5 +61,6 @@ namespace ProjektyElektronika.Client.ViewModels
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
         public ICommand AddAuthorCommand { get; }
+        public Action CloseWindow { get; set; }
     }
 }

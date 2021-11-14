@@ -10,6 +10,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <conv:FilterProjectsConverter x:Key="FilterProjectsConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -26,11 +27,18 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="14" MaxLines="1"/>
+                <TextBox x:Name="filterTextBox" Height="25" FontSize="14" MaxLines="1"/>
                 <Button Grid.Column="2" Content="Dodaj projekt" Command="{Binding OpenAddProjectWindowCommand}"/>
             </Grid>
         </StackPanel>
-        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding FilteredProjects}" >
+        <ScrollViewer Grid.Row="1" >
+        <ItemsControl Margin="5">
+            <ItemsControl.ItemsSource>
+                <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
+                    <Binding Path="Projects" />
+                    <Binding ElementName="filterTextBox" Path="Text" />
+                </MultiBinding>
+            </ItemsControl.ItemsSource>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
@@ -72,5 +80,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>

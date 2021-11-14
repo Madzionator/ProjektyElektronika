@@ -8,9 +8,11 @@
         Title="AddProjectWindow" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <Label>Tytuł:</Label>
             <TextBox Text="{Binding Project.Title}"/>
             <Button Command="{Binding SelectFileCommand}" Content="Wybierz plik"/>
             <TextBlock Text="{Binding FileName}" />
+            <Label>Data:</Label>
             <TextBox Text="{Binding Project.DateCreated, StringFormat=dd.MM.yyyy}"/>
 
 
