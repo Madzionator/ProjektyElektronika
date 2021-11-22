@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProjektyElektronika.Shared.DTO;
+using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.Data
 {
@@ -12,7 +12,7 @@ namespace ProjektyElektronika.Client.Data
         private OnlineDataProvider _onlineDataProvider = new();
         private OfflineDataProvider _offlineDataProvider = new();
      
-        public async Task<List<ProjectDto>> GetProjectList()
+        public async Task<List<Project>> GetProjectList()
         {
             try
             {
@@ -32,7 +32,7 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
-        public async Task DownloadProject(ProjectDto project)
+        public async Task DownloadProject(Project project)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
-        public async Task OpenProject(ProjectDto project)
+        public async Task OpenProject(Project project)
         {
             await _offlineDataProvider.OpenProject(project);
         }

@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjektyElektronika.Client", "ProjektyElektronika.Client\ProjektyElektronika.Client.csproj", "{FC763E6D-04DF-49A2-B4B6-A454AE0FD087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjektyElektronika.Client", "ProjektyElektronika.Client\ProjektyElektronika.Client.csproj", "{FC763E6D-04DF-49A2-B4B6-A454AE0FD087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjektyElektronika.Api", "ProjektyElektronika.Api\ProjektyElektronika.Api.csproj", "{0C615B35-1217-42FC-A05C-D02FE018FF53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjektyElektronika.Shared", "ProjektyElektronika.Shared\ProjektyElektronika.Shared.csproj", "{08581085-B2EC-40F5-84B1-9C8CD1790D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjektyElektronika.Api", "ProjektyElektronika.Api\ProjektyElektronika.Api.csproj", "{0C615B35-1217-42FC-A05C-D02FE018FF53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{0C615B35-1217-42FC-A05C-D02FE018FF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C615B35-1217-42FC-A05C-D02FE018FF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C615B35-1217-42FC-A05C-D02FE018FF53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08581085-B2EC-40F5-84B1-9C8CD1790D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08581085-B2EC-40F5-84B1-9C8CD1790D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08581085-B2EC-40F5-84B1-9C8CD1790D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08581085-B2EC-40F5-84B1-9C8CD1790D23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

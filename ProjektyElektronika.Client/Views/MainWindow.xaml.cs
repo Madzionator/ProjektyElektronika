@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows;
+using ProjektyElektronika.Client.ViewModels;
 
 namespace ProjektyElektronika.Client.Views
 {

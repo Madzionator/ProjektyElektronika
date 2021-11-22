@@ -1,0 +1,39 @@
+﻿<Window x:Class="ProjektyElektronika.Client.Views.AddProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
+        mc:Ignorable="d"
+        Title="AddProjectWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <Label>Tytuł:</Label>
+            <TextBox Text="{Binding Project.Title}"/>
+            <Button Command="{Binding SelectFileCommand}" Content="Wybierz plik"/>
+            <TextBlock Text="{Binding FileName}" />
+            <Label>Data:</Label>
+            <TextBox Text="{Binding Project.DateCreated, StringFormat=dd.MM.yyyy}"/>
+
+
+            <Label>Autorzy:</Label>
+            <Button Command="{Binding AddAuthorCommand}">Dodaj autora</Button>
+            <ItemsControl ItemsSource="{Binding Project.Authors}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding Index}"/>
+                            <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Separator />
+            <Button Command="{Binding AddProjectCommand}" Content="Wyślij"/>
+        </StackPanel>
+    </Grid>
+</Window>
