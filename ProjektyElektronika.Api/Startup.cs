@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ProjektyElektronika.Api.DateBase;
 using ProjektyElektronika.Api.Models;
@@ -52,6 +53,7 @@ namespace ProjektyElektronika.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGet("/", context => context.Response.WriteAsync($"Projekty elektronika API online; {DateTime.Now:R}"));
             });
         }
     }

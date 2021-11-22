@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
+        xmlns:converters="clr-namespace:ProjektyElektronika.Client.Converters"
         mc:Ignorable="d" 
         Title="Dodaj nowy projekt" Height="450" Width="400">
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -58,6 +62,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Grid.Row="6" Command="{Binding AddProjectCommand}" Content="Wyślij"/>
-        </Grid>
+        <Button IsEnabled="{Binding IsOnline}" Grid.Row="6" Command="{Binding AddProjectCommand}" Content="Wyślij"/>
+        <Border Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
+            <Label Foreground="WhiteSmoke">Jesteś w trybie offline.</Label>
+        </Border>
+    </Grid>
 </Window>
