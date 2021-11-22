@@ -22,6 +22,11 @@ namespace ProjektyElektronika.Client.ViewModels
             {
                 Project.Authors.Add(new Author());
             });
+            SubAuthorCommand = new Command(() => 
+            {
+                if(Project.Authors.Count > 0)
+                    Project.Authors.RemoveAt(Project.Authors.Count - 1);
+            });
         }
 
         private void SelectFile()
@@ -61,6 +66,7 @@ namespace ProjektyElektronika.Client.ViewModels
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
         public ICommand AddAuthorCommand { get; }
+        public ICommand SubAuthorCommand { get; }
         public Action CloseWindow { get; set; }
     }
 }

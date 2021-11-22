@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
         xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
         x:Name="root"
         Title="MainWindow" Height="450" Width="800">
