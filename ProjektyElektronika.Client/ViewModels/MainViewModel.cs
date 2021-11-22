@@ -25,6 +25,13 @@ namespace ProjektyElektronika.Client.ViewModels
             LoadList();
         }
 
+        private bool _isOnline = false;
+        public bool IsOnline
+        {
+            get => _isOnline;
+            set => SetProperty(ref _isOnline, value);
+        }
+
         private List<Project> _projects = new();
         public List<Project> Projects
         {
@@ -64,7 +71,9 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task LoadList()
         {
+            IsBusy = true;
             Projects = await _dataProvider.GetProjectList();
+            IsBusy = false;
         }
     }
 }

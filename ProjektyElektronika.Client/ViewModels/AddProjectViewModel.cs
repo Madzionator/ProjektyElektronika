@@ -37,7 +37,8 @@ namespace ProjektyElektronika.Client.ViewModels
                 var file = new FileInfo(openFileDialog.FileName);
                 Project.Address = openFileDialog.FileName;
                 FileName = file.Name;
-                Project.DateCreated = file.CreationTime;
+
+                Project.DateCreated ??= file.CreationTime;
             }
         }
 

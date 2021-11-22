@@ -4,38 +4,47 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        ui:WindowHelper.UseModernWindowStyle="True"
-        mc:Ignorable="d"
-        Title="Dodaj nowy projekt" Height="450" Width="800">
-    <Grid>
+        mc:Ignorable="d" 
+        Title="Dodaj nowy projekt" Height="450" Width="400">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="24"/>
-            <RowDefinition MaxHeight="24"/>
-            <RowDefinition MaxHeight="36"/>
-            <RowDefinition MaxHeight="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition MaxHeight="36"/>
         </Grid.RowDefinitions>
 
         <Button Command="{Binding SelectFileCommand}" Content="Wybierz plik"/>
-        <TextBlock Grid.Column="1" Text="{Binding FileName}" />
-        <Label Grid.Row="1">Tytuł projektu:</Label>
-        <TextBox Grid.Row="2" Text="{Binding Project.Title}"/>
-        <Label Grid.Row="1" Grid.Column="1">Data wykonania:</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Project.DateCreated, StringFormat=dd.MM.yyyy}"/>
+        <TextBox Margin="5,0,0,0" IsEnabled="False" Grid.Column="1" Grid.ColumnSpan="2" TextAlignment="Center"  Text="{Binding FileName}" />
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
+        <Label Grid.Row="1"  Margin="0,20,0,0">Tytuł projektu:</Label>
+        <TextBox Grid.Row="2"  Grid.ColumnSpan="2"  Text="{Binding Project.Title}"/>
+        <Label Grid.Row="1" Grid.Column="2"  Margin="0,20,0,0">Data wykonania:</Label>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Project.DateCreated, StringFormat=dd.MM.yyyy}"/>
+
+
+       <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,20,0,0">
             <Label Grid.ColumnSpan="2">Autorzy:</Label>
             <Button Command="{Binding AddAuthorCommand}" MinWidth="15" Margin="2">+</Button>
             <Button Command="{Binding SubAuthorCommand}" MinWidth="15" Margin="2">-</Button>
         </StackPanel>
-          
-        <ItemsControl Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding Project.Authors}">
+        <Grid Grid.Row="4" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Indeks:</Label>
+            <Label Grid.Column="1">Imię i nazwisko:</Label>
+        </Grid>
+        <ItemsControl Grid.Row="5" Grid.ColumnSpan="3" ItemsSource="{Binding Project.Authors}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -49,6 +58,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" MinWidth="150" Command="{Binding AddProjectCommand}" Content="Wyślij"/>
+        <Button Grid.Row="6" Command="{Binding AddProjectCommand}" Content="Wyślij"/>
         </Grid>
 </Window>
