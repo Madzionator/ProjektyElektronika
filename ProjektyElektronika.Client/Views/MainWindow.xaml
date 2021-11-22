@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
         xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         x:Name="root"
         Title="MainWindow" Height="450" Width="800">
@@ -14,25 +15,30 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-
-        <StackPanel Margin="8">
-            <TextBlock Text="Wyszukaj:" Margin="0,0,0,3"/>
-            <Grid>
+        <StackPanel>
+            <Border Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
+                <Label Foreground="WhiteSmoke">Jesteś w trybie offline.</Label>
+            </Border>
+            <TextBlock Text="Wyszukaj:" Margin="8,8,8,11"/>
+            <Grid Margin="8,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="filterTextBox" Height="25" FontSize="14" MaxLines="1"/>
-                <Button Grid.Column="2" Content="Dodaj projekt" Command="{Binding OpenAddProjectWindowCommand}"/>
+                <TextBox x:Name="filterTextBox" Height="25" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
+                <Button Grid.Column="2" Content="Dodaj projekt" Command="{Binding OpenAddProjectWindowCommand}" IsEnabled="{Binding IsOnline}"/>
             </Grid>
         </StackPanel>
         <ScrollViewer Grid.Row="1" >
-        <ItemsControl Margin="5">
+            <Grid>
+                <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
+
+                <ItemsControl Margin="5">
             <ItemsControl.ItemsSource>
                 <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
                     <Binding Path="Projects" />
@@ -80,6 +86,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -15,14 +15,31 @@ namespace ProjektyElektronika.Client.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private readonly IDataProvider _dataProvider;
+        private readonly OnlineDetector _onlineDetector;
 
-        public MainViewModel(IDataProvider dataProvider)
+        public MainViewModel(IDataProvider dataProvider, OnlineDetector onlineDetector)
         {
             _dataProvider = dataProvider;
+            _onlineDetector = onlineDetector;
             DownloadProjectCommand = new AsyncCommand<Project>(DownloadProject);
             OpenProjectCommand = new AsyncCommand<Project>(OpenProject);
             OpenAddProjectWindowCommand = new Command(OpenAddProjectWindow);
             LoadList();
+
+            onlineDetector.OnOnlineChanged += OnOnlineChanged;
+        }
+
+        private void OnOnlineChanged(bool isonline)
+        {
+            IsOnline = isonline;
+            LoadList();
+        }
+
+        private bool _isOnline = false;
+        public bool IsOnline
+        {
+            get => _isOnline;
+            set => SetProperty(ref _isOnline, value);
         }
 
         private List<Project> _projects = new();
@@ -38,7 +55,7 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private void OpenAddProjectWindow()
         {
-            var viewModel = new AddProjectViewModel();
+            var viewModel = new AddProjectViewModel(_onlineDetector) { IsOnline = IsOnline };
             var view = new AddProjectWindow(viewModel);
             view.ShowDialog();
             LoadList();
@@ -64,7 +81,9 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task LoadList()
         {
+            IsBusy = true;
             Projects = await _dataProvider.GetProjectList();
+            IsBusy = false;
         }
     }
 }

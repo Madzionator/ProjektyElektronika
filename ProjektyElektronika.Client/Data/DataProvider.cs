@@ -11,11 +11,23 @@ namespace ProjektyElektronika.Client.Data
     {
         private OnlineDataProvider _onlineDataProvider = new();
         private OfflineDataProvider _offlineDataProvider = new();
-     
+
+        public DataProvider(OnlineDetector onlineDetector)
+        {
+            onlineDetector.OnOnlineChanged += online => IsOnline = online;
+        }
+
+        public bool IsOnline { get; set; }
+
         public async Task<List<Project>> GetProjectList()
         {
             try
             {
+                if (!IsOnline)
+                {
+                    throw new Exception("not online");
+                }
+
                 var dict = _offlineDataProvider.GetProjectList().ToDictionary(x=>x.Id, x=>x);
                 var projects = await _onlineDataProvider.GetProjectList();
                 foreach (var project in projects)

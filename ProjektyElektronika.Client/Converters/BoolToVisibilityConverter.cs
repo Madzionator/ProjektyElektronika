@@ -14,7 +14,7 @@ namespace ProjektyElektronika.Client.Converters
 
             return boolValue == param
                 ? Visibility.Visible 
-                : Visibility.Hidden;
+                : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

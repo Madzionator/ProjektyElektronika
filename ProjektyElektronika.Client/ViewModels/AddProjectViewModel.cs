@@ -14,14 +14,28 @@ namespace ProjektyElektronika.Client.ViewModels
 {
     public class AddProjectViewModel : BaseViewModel
     {
-        public AddProjectViewModel()
+        public AddProjectViewModel(OnlineDetector onlineDetector)
         {
+            onlineDetector.OnOnlineChanged += isOnline => IsOnline = isOnline;
+
             AddProjectCommand = new AsyncCommand(AddProject);
             SelectFileCommand = new Command(SelectFile);
             AddAuthorCommand = new Command(() =>
             {
                 Project.Authors.Add(new Author());
             });
+            SubAuthorCommand = new Command(() => 
+            {
+                if(Project.Authors.Count > 0)
+                    Project.Authors.RemoveAt(Project.Authors.Count - 1);
+            });
+        }
+
+        private bool _isOnline = false;
+        public bool IsOnline
+        {
+            get => _isOnline;
+            set => SetProperty(ref _isOnline, value);
         }
 
         private void SelectFile()
@@ -32,7 +46,8 @@ namespace ProjektyElektronika.Client.ViewModels
                 var file = new FileInfo(openFileDialog.FileName);
                 Project.Address = openFileDialog.FileName;
                 FileName = file.Name;
-                Project.DateCreated = file.CreationTime;
+
+                Project.DateCreated ??= file.CreationTime;
             }
         }
 
@@ -44,7 +59,6 @@ namespace ProjektyElektronika.Client.ViewModels
         }
 
         private Project _project = new ();
-
         public Project Project
         {
             get => _project;
@@ -61,6 +75,7 @@ namespace ProjektyElektronika.Client.ViewModels
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
         public ICommand AddAuthorCommand { get; }
+        public ICommand SubAuthorCommand { get; }
         public Action CloseWindow { get; set; }
     }
 }
