@@ -57,11 +57,11 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition MaxWidth="150" MinWidth="50" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14"/>
-                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                    <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0"/>
 
                             <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" 
-                                    CommandParameter="{Binding .}" Content="Pobierz" Background="#63BEDE" FontSize="14"
+                                    CommandParameter="{Binding .}" Content="Pobierz" Background="#63BEDE" FontSize="14" 
                                     Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
                             <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
                                     CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold"
