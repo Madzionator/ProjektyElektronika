@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Win32;
@@ -53,9 +54,16 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task AddProject()
         {
-            var fileuploader = new ProjectUploader();
-            await fileuploader.UploadProject(Project);
-            CloseWindow();
+            try
+            {
+                var fileuploader = new ProjectUploader();
+                await fileuploader.UploadProject(Project);
+                CloseWindow();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Nie udało się dodać projektu.\n{ex.Message}", "Błąd");
+            }
         }
 
         private Project _project = new ();
