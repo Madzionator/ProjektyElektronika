@@ -40,8 +40,8 @@ namespace ProjektyElektronika.Client.Data
 
         public async Task OpenProject(Project project)
         {
-            project.Address ??= GetProjectList().FirstOrDefault(x => x.Id == project.Id)?.Address;
-            var file = new FileInfo(project.Address);
+            project.LocalAddress ??= GetProjectList().FirstOrDefault(x => x.Id == project.Id)?.LocalAddress;
+            var file = new FileInfo(project.LocalAddress);
 
             var startInfo = new ProcessStartInfo(file.FullName)
             {

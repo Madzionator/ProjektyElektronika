@@ -1,29 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using MvvmHelpers;
+﻿using MvvmHelpers;
+using System;
+using Newtonsoft.Json;
 
 namespace ProjektyElektronika.Client.Models
 {
+
     public class Project : ObservableObject
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Author { get; set; }
+        public string Category { get; set; }
+       
+        [JsonProperty("academic_year")]
+        public int AcademicYear { get; set; } // delet this
+        
+        [JsonProperty("is_diploma")]
+        public bool IsDiploma { get; set; }
 
-        private DateTime? _dateCreated;
-        public DateTime? DateCreated 
-        { 
-            get => _dateCreated;
-            set => SetProperty(ref _dateCreated, value);
-        }
+        [JsonProperty("files_link")]
+        public string FilesLink { get; set; }
 
-        private ObservableRangeCollection<Author> _authors = new();
-        public ObservableRangeCollection<Author> Authors
-        {
-            get => _authors;
-            set => SetProperty(ref _authors, value);
-        }
+        [JsonProperty("internal_filename")]
+        public string DownloadName { get; set; }
 
-        public string Address { get; set; }
         public bool IsDownloaded { get; set; }
+        public string LocalAddress { get; set; }
     }
 }

@@ -15,26 +15,30 @@ namespace ProjektyElektronika.Client.Data
     {
         public async Task UploadProject(Project project)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:5001/");
+            //var file = new FileInfo(project.LocalAddress);
+            //var fileContent = new StreamContent(file.OpenRead())
+            //{
+            //    Headers =
+            //    {
+            //        ContentLength = file.Length,
+            //        //ContentType = new MediaTypeHeaderValue(.ContentType)
+            //    }
+            //};
 
-            var file = new FileInfo(project.Address);
-            var fileContent = new StreamContent(file.OpenRead())
-            {
-                Headers =
-                {
-                    ContentLength = file.Length,
-                    //ContentType = new MediaTypeHeaderValue(.ContentType)
-                }
-            };
+            //var formDataContent = new MultipartFormDataContent();
+            //formDataContent.Add(fileContent, "File", file.Name);          // file
 
-            var formDataContent = new MultipartFormDataContent();
-            formDataContent.Add(fileContent, "File", file.Name);          // file
+            //var json = JsonConvert.SerializeObject(project);
+            //formDataContent.Add(new StringContent(json), "json");   // form input
 
-            var json = JsonConvert.SerializeObject(project);
-            formDataContent.Add(new StringContent(json), "json");   // form input
+            //var client = WebHelpers.CreateClient();
+            //await client.PostAsync("project", formDataContent);
+        }
 
-            await client.PostAsync("project", formDataContent);
+        public async Task AddCategory(string category)
+        {
+            var client = WebHelpers.CreateClient();
+            await client.PostAsync($"admin/add_category/{category}", new StringContent(string.Empty));
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProjektyElektronika.Client.Models;
@@ -13,26 +11,26 @@ namespace ProjektyElektronika.Client.Data
     {
         public async Task<List<Project>> GetProjectList()
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:5001/");
-
-            var response = await client.GetStringAsync("project");
-
+            var response = await WebHelpers.CreateClient().GetStringAsync("projects");
             var projects = JsonConvert.DeserializeObject<List<Project>>(response);
-
             return projects;
+        }
+
+        public async Task<List<string>> GetCategories()
+        {
+            var response = await WebHelpers.CreateClient().GetStringAsync("categories");
+            var categories = JsonConvert.DeserializeObject<List<string>>(response);
+            return categories;
         }
 
         public async Task DownloadProject(Project project)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:5001/");
-            var response = await client.GetAsync($"project/download-request/{project.Id}");
+            var response = await WebHelpers.CreateClient().GetAsync($"file/{project.Id}");
 
-            var filename = response.Headers.GetValues("filename").First();
+            var filename = project.DownloadName;
             var path = $"data/{project.Id}/{filename}";
 
-            project.Address = path;
+            project.LocalAddress = path;
             var file = new FileInfo(path);
 
             if (file.Directory.Exists)

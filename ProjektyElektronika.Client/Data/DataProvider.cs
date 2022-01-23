@@ -44,6 +44,18 @@ namespace ProjektyElektronika.Client.Data
             }
         }
 
+        public async Task<List<string>> GetCategoryList()
+        {
+            if (IsOnline)
+            {
+                return await _onlineDataProvider.GetCategories();
+            }
+            else
+            {
+                return new List<string>() { "XD" };
+            }
+        }
+
         public async Task DownloadProject(Project project)
         {
             try

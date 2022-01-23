@@ -39,53 +39,43 @@
                 <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
 
                 <ItemsControl Margin="5">
-            <ItemsControl.ItemsSource>
-                <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
-                    <Binding Path="Projects" />
-                    <Binding ElementName="filterTextBox" Path="Text" />
-                </MultiBinding>
-            </ItemsControl.ItemsSource>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
-                        <Grid Margin="3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition MaxWidth="150" MinWidth="50" />
-                            </Grid.ColumnDefinitions>
+                    <ItemsControl.ItemsSource>
+                        <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
+                            <Binding Path="Projects" />
+                            <Binding ElementName="filterTextBox" Path="Text" />
+                        </MultiBinding>
+                    </ItemsControl.ItemsSource>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition MaxWidth="150" MinWidth="50" />
+                                    </Grid.ColumnDefinitions>
+                                    
                                     <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap"/>
-                            <TextBlock Text="{Binding DateCreated, StringFormat=dd MMMM yyyy}" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0"/>
-
-                            <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" 
-                                    CommandParameter="{Binding .}" Content="Pobierz" Background="#63BEDE" FontSize="14" 
-                                    Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
-                            <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
-                                    CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold"
-                                    Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Authors}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Index}" />
-                                            <TextBlock Text="{Binding Name}"  Margin="2,0,10,0"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                    <TextBlock Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                    
+                                    <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}" 
+                                            CommandParameter="{Binding .}" Content="Pobierz" Background="DeepSkyBlue" FontSize="14"  BorderThickness="0 0 0 3" BorderBrush="DarkSlateBlue"
+                                            Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
+                                    
+                                    <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
+                                            CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold" BorderThickness="0 0 0 3" BorderBrush="#579b40"
+                                            Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                    
+                                    <TextBlock  Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
+                                    <TextBlock  Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </ScrollViewer>
     </Grid>

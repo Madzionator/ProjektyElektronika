@@ -21,15 +21,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
             AddProjectCommand = new AsyncCommand(AddProject);
             SelectFileCommand = new Command(SelectFile);
-            AddAuthorCommand = new Command(() =>
-            {
-                Project.Authors.Add(new Author());
-            });
-            SubAuthorCommand = new Command(() => 
-            {
-                if(Project.Authors.Count > 0)
-                    Project.Authors.RemoveAt(Project.Authors.Count - 1);
-            });
         }
 
         private bool _isOnline = false;
@@ -45,10 +36,8 @@ namespace ProjektyElektronika.Client.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 var file = new FileInfo(openFileDialog.FileName);
-                Project.Address = openFileDialog.FileName;
+                Project.LocalAddress = openFileDialog.FileName;
                 FileName = file.Name;
-
-                Project.DateCreated ??= file.CreationTime;
             }
         }
 
@@ -82,8 +71,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
-        public ICommand AddAuthorCommand { get; }
-        public ICommand SubAuthorCommand { get; }
         public Action CloseWindow { get; set; }
     }
 }

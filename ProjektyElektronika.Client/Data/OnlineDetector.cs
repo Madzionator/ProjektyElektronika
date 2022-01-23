@@ -13,14 +13,10 @@ namespace ProjektyElektronika.Client.Data
 
         private bool _isOnline = false;
         private Timer _timer;
-        private HttpClient _client;
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(5));
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri("https://localhost:5001/");
-            _client.Timeout = TimeSpan.FromSeconds(1);
         }
 
         private void DoWork(object? state)
@@ -38,7 +34,7 @@ namespace ProjektyElektronika.Client.Data
         {
             try
             {
-                _ = _client.GetAsync("/").Result;
+                _ = WebHelpers.CreateClient().GetAsync("/").Result;
                 return true;
             }
             catch

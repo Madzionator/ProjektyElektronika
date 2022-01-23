@@ -38,12 +38,11 @@ namespace ProjektyElektronika.Client.Converters
             {
                 if (project.Title.Contains(filterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
-                if (project.Authors.Any(author => author.Name.Contains(filterString, StringComparison.InvariantCultureIgnoreCase)))
+                if (project.Author.Contains(filterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
-                if (project.Authors.Any(author => author.Index.ToString().Contains(filterString, StringComparison.InvariantCultureIgnoreCase)))
+                if (project.AcademicYear.ToString().Contains(filterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
-                if (project.DateCreated.Value.ToString("dd MMMM yyyy")
-                    .Contains(filterString, StringComparison.InvariantCultureIgnoreCase))
+                if (project.Category.Contains(filterString, StringComparison.InvariantCultureIgnoreCase))
                     return true;
                 return false;
             }
