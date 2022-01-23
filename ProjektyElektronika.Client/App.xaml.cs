@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using ProjektyElektronika.Client.Data;
 using ProjektyElektronika.Client.ViewModels;
 using ProjektyElektronika.Client.Views;

@@ -7,9 +7,16 @@ namespace ProjektyElektronika.Client.Models
 
     public class Project : ObservableObject
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
+
+        [JsonProperty("title")]
         public string Title { get; set; }
+
+        [JsonProperty("author")]
         public string Author { get; set; }
+
+        [JsonProperty("category")]
         public string Category { get; set; }
        
         [JsonProperty("academic_year")]

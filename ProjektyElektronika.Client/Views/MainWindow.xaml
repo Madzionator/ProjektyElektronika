@@ -8,7 +8,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         x:Name="root"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Projekty Elektronika" Height="450" Width="800">
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <conv:FilterProjectsConverter x:Key="FilterProjectsConverter" />
@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="filterTextBox" Height="25" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
-                <Button Grid.Column="2" Content="Dodaj projekt" Command="{Binding OpenAddProjectWindowCommand}" IsEnabled="{Binding IsOnline}"/>
+                <Button Grid.Column="2" Content="Zarządzaj" Command="{Binding OpenAdminWindowCommand}" IsEnabled="{Binding IsOnline}"/>
             </Grid>
         </StackPanel>
         <ScrollViewer Grid.Row="1" >

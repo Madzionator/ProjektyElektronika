@@ -23,7 +23,7 @@ namespace ProjektyElektronika.Client.ViewModels
             _onlineDetector = onlineDetector;
             DownloadProjectCommand = new AsyncCommand<Project>(DownloadProject);
             OpenProjectCommand = new AsyncCommand<Project>(OpenProject);
-            OpenAddProjectWindowCommand = new Command(OpenAddProjectWindow);
+            OpenAdminWindowCommand = new Command(OpenAdminWindow);
             LoadList();
 
             onlineDetector.OnOnlineChanged += OnOnlineChanged;
@@ -51,12 +51,12 @@ namespace ProjektyElektronika.Client.ViewModels
 
         public ICommand DownloadProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
-        public ICommand OpenAddProjectWindowCommand { get; }
+        public ICommand OpenAdminWindowCommand { get; }
 
-        private void OpenAddProjectWindow()
+        private void OpenAdminWindow()
         {
-            var viewModel = new AddProjectViewModel(_onlineDetector) { IsOnline = IsOnline };
-            var view = new AddProjectWindow(viewModel);
+            var viewModel = new AdminViewModel(_onlineDetector, _dataProvider) { IsOnline = IsOnline };
+            var view = new AdminWindow(viewModel);
             view.ShowDialog();
             LoadList();
         }
