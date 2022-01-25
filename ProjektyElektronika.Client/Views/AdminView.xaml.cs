@@ -1,15 +1,14 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using ProjektyElektronika.Client.ViewModels;
 
 namespace ProjektyElektronika.Client.Views
 {
-    public partial class AdminWindow : Window
+    public partial class AdminView : UserControl
     {
-        public AdminWindow(AdminViewModel viewModel)
+        public AdminView()
         {
             InitializeComponent();
-            viewModel.CloseWindow = this.Close;
-            DataContext = viewModel;
         }
     }
 }

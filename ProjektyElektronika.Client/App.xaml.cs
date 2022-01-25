@@ -34,12 +34,15 @@ namespace ProjektyElektronika.Client
             var detector = new OnlineDetector();
             services.AddSingleton(detector);
             services.AddHostedService<OnlineDetector>(isp => detector);
+            services.AddSingleton<Navigation>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             _host.StartAsync();
 
+            var navigation = _host.Services.GetRequiredService<Navigation>();
+            navigation.Navigate<HomeViewModel>();
             var viewModel = ActivatorUtilities.GetServiceOrCreateInstance<MainViewModel>(_host.Services);
             var view = new MainWindow
             {

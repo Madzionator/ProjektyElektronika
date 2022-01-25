@@ -29,11 +29,12 @@ namespace ProjektyElektronika.Client.ViewModels
             AddProjectCommand = new Command(OpenAddProjectWindow);
             LoadData();
         }
+
         private void OpenAddProjectWindow()
         {
             var viewModel = new AddProjectViewModel(_onlineDetector, _dataProvider) { IsOnline = IsOnline };
-            var view = new AddProjectWindow(viewModel);
-            view.ShowDialog();
+            //var view = new AddProjectView(viewModel);
+            //view.ShowDialog();
         }
 
         private async Task LoadData()

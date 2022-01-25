@@ -11,20 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ProjektyElektronika.Client.ViewModels;
 
-namespace ProjektyElektronika.Client.Views
+namespace ProjektyElektronika.Client
 {
     /// <summary>
-    /// Interaction logic for AddProjectWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class AddProjectWindow : Window
+    public partial class MainWindow : Window
     {
-        public AddProjectWindow(AddProjectViewModel viewModel)
+        public MainWindow()
         {
             InitializeComponent();
-            viewModel.CloseWindow = this.Close;
-            DataContext = viewModel;
         }
     }
 }
