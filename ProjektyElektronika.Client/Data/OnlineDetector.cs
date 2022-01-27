@@ -6,13 +6,20 @@ using Microsoft.Extensions.Hosting;
 
 namespace ProjektyElektronika.Client.Data
 {
-    public class OnlineDetector : IHostedService
+    public delegate void OnOnlineChangedHandler(bool isOnline);
+
+    public interface IOnlineDetector
     {
+        public bool IsOnline { get; }
         public event OnOnlineChangedHandler OnOnlineChanged;
-        public delegate void OnOnlineChangedHandler(bool isOnline);
+    }
+
+    public class OnlineDetector : IHostedService, IOnlineDetector
+    {
+        private Timer _timer;
 
         private bool _isOnline = false;
-        private Timer _timer;
+        public bool IsOnline => _isOnline;
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
@@ -48,5 +55,7 @@ namespace ProjektyElektronika.Client.Data
         {
             _timer.Dispose();
         }
+
+        public event OnOnlineChangedHandler OnOnlineChanged;
     }
 }

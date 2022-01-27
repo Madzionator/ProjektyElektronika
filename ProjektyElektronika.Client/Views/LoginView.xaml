@@ -5,18 +5,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
              xmlns:converters="clr-namespace:ProjektyElektronika.Client.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              d:DesignHeight="400" d:DesignWidth="600"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel MaxWidth="100" VerticalAlignment="Center">
-            <Label>Hasło</Label>
-            <TextBox Text="{Binding Password}"/>
+        <Border CornerRadius="5" BorderBrush="#333333"  MaxWidth="130" BorderThickness=" 1" VerticalAlignment="Center">
+        <StackPanel Margin="5">
+            <TextBlock Text="Hasło" TextAlignment="Center" Margin="0 4 0 8" />
+            <PasswordBox  Name="txtPassword" />
             <Separator Height="10"/>
-            <Button Command="{Binding LoginCommand}">Zaloguj</Button>
+                <Button IsEnabled="{Binding IsNotBusy}" Command="{Binding LoginCommand}" 
+                        CommandParameter="{Binding ElementName=txtPassword}">Zaloguj</Button>
         </StackPanel>
-
+        </Border>
+        <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
     </Grid>
 </UserControl>

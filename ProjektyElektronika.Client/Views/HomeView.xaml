@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
              xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d"
+             mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600" 
              x:Name="root">
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -28,15 +28,19 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="filterTextBox" Height="25" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
+                <TextBox x:Name="filterTextBox" Height="28" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
                 <Button Grid.Column="2" Content="Zarządzaj" Command="{Binding OpenAdminWindowCommand}" IsEnabled="{Binding IsOnline}"/>
             </Grid>
         </StackPanel>
         <ScrollViewer Grid.Row="1" >
             <Grid>
-                <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="226*"/>
+                </Grid.ColumnDefinitions>
+                <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" Grid.Column="1" HorizontalAlignment="Left" Margin="129,0,0,0" />
 
-                <ItemsControl Margin="5">
+                <ItemsControl Margin="5,5,5,5" Grid.ColumnSpan="2">
                     <ItemsControl.ItemsSource>
                         <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
                             <Binding Path="Projects" />
@@ -55,7 +59,7 @@
                                         <ColumnDefinition Width="3*" />
                                         <ColumnDefinition MaxWidth="150" MinWidth="50" />
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap"/>
                                     <TextBlock Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
 
@@ -66,7 +70,7 @@
                                     <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}"
                                             CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold" BorderThickness="0 0 0 3" BorderBrush="#579b40"
                                             Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-                                    
+
                                     <TextBlock  Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
                                     <TextBlock  Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
                                 </Grid>

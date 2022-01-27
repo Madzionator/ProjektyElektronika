@@ -1,47 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
-using Microsoft.Win32;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using ProjektyElektronika.Client.Data;
 using ProjektyElektronika.Client.Models;
-using ProjektyElektronika.Client.Views;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
     public class AdminViewModel : BaseViewModel
     {
-        private readonly OnlineDetector _onlineDetector;
+        private readonly Navigation _navigation;
         private readonly IDataProvider _dataProvider;
 
-        public AdminViewModel(OnlineDetector onlineDetector, IDataProvider dataProvider)
+        public AdminViewModel(Navigation navigation, IOnlineDetector onlineDetector, IDataProvider dataProvider)
         {
-            _onlineDetector = onlineDetector;
+            _navigation = navigation;
             _dataProvider = dataProvider;
-            onlineDetector.OnOnlineChanged += isOnline => IsOnline = isOnline;
+
+            IsOnline = onlineDetector.IsOnline;
+            onlineDetector.OnOnlineChanged += delegate(bool isOnline)
+            {
+                IsOnline = isOnline;
+                LoadData();
+            };
 
             AddProjectCommand = new Command(OpenAddProjectWindow);
+            GoBackCommand = new Command(GoBack);
+            DeleteProjectCommand = new AsyncCommand<Project>(DeleteProject);
+
             LoadData();
+        }
+
+        private async Task DeleteProject(Project project)
+        {
+            IsBusy = true;
+            try
+            {
+                await _dataProvider.DeleteProject(project);
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nie udało się usunąć projektu.\n{ex.Message}");
+            }
+            
+            IsBusy = false;
+        }
+
+        private void GoBack()
+        {
+            _navigation.Navigate<HomeViewModel>();
         }
 
         private void OpenAddProjectWindow()
         {
-            var viewModel = new AddProjectViewModel(_onlineDetector, _dataProvider) { IsOnline = IsOnline };
-            //var view = new AddProjectView(viewModel);
-            //view.ShowDialog();
+            _navigation.Navigate<AddProjectViewModel>();
         }
 
         private async Task LoadData()
         {
-            var categories = await _dataProvider.GetCategoryList();
-            categories.Sort();
-            Categories = categories;
+            IsBusy = true;
+            Projects = await _dataProvider.GetProjectList();
+            IsBusy = false;
         }
 
         private bool _isOnline = false;
@@ -51,14 +74,15 @@ namespace ProjektyElektronika.Client.ViewModels
             set => SetProperty(ref _isOnline, value);
         }
 
-        private List<string> _categories;
-        public List<string> Categories
+        private List<Project> _projects;
+        public List<Project> Projects
         {
-            get => _categories;
-            set => SetProperty(ref _categories, value);
+            get => _projects;
+            set => SetProperty(ref _projects, value);
         }
 
+        public ICommand GoBackCommand { get; }
         public ICommand AddProjectCommand { get; }
-        public Action CloseWindow { get; set; }
+        public ICommand DeleteProjectCommand { get; }
     }
 }

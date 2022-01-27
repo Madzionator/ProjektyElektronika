@@ -50,5 +50,12 @@ namespace ProjektyElektronika.Client.Data
 
             Process.Start(startInfo);
         }
+
+        public async Task DeleteProject(Project project)
+        {
+            var projects = GetProjectList();
+            projects.RemoveAll(x => x.Id == project.Id);
+            SaveProjectList(projects);
+        }
     }
 }

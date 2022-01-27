@@ -13,9 +13,7 @@ namespace ProjektyElektronika.Client.Data
 {
     class ProjectUploader
     {
-        private string login = "fesz";
-        private string password = "admin";
-        private string AuthToken => Convert.ToBase64String(Encoding.ASCII.GetBytes($"{login}:{password}"));
+
 
         public async Task UploadProject(Project project)
         {
@@ -35,14 +33,17 @@ namespace ProjektyElektronika.Client.Data
             formDataContent.Add(new StringContent(json), "json");   // form input
 
             var client = WebHelpers.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AuthToken);
+
             var response = await client.PostAsync("admin/add_mp", formDataContent);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Błąd serwera {response.StatusCode:D}: {response.StatusCode}");
+            }
         }
 
         public async Task AddCategory(string category)
         {
             var client = WebHelpers.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AuthToken);
             await client.PostAsync($"admin/add_category/{category}", new StringContent(string.Empty));
         }
     }

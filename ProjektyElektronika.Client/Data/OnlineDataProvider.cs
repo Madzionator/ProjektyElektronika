@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,6 +47,15 @@ namespace ProjektyElektronika.Client.Data
             }
 
             project.IsDownloaded = true;
+        }
+
+        public async Task DeleteProject(Project project)
+        {
+            var response = await WebHelpers.CreateClient().DeleteAsync($"admin/delete/{project.Id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Błąd serwera {response.StatusCode:D}: {response.StatusCode}");
+            }
         }
     }
 }

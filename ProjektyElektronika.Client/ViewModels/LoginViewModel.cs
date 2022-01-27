@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
-using Microsoft.Win32;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using ProjektyElektronika.Client.Data;
-using ProjektyElektronika.Client.Models;
-using ProjektyElektronika.Client.Views;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
@@ -22,20 +15,24 @@ namespace ProjektyElektronika.Client.ViewModels
         public LoginViewModel(Navigation navigation)
         {
             _navigation = navigation;
-            LoginCommand = new Command(Login);
+            LoginCommand = new AsyncCommand<PasswordBox>(Login);
         }
 
-        private void Login()
+        private async Task Login(PasswordBox passwordBox)
         {
-            //git
-            _navigation.Navigate<AdminViewModel>();
-        }
+            IsBusy = true;
+            WebHelpers.Password = passwordBox.Password;
+            var isCorrect = await WebHelpers.CheckAdmin();
+            if (isCorrect)
+            {
+                _navigation.Navigate<AdminViewModel>();
+            }
+            else
+            {
+                MessageBox.Show("Nie udało się zalogować.");
+            }
 
-        private string _password;
-        public string Password
-        {
-            get => _password;
-            set => SetProperty(ref _password, value);
+            IsBusy = false;
         }
 
         public ICommand LoginCommand { get; }

@@ -5,20 +5,75 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
              xmlns:converters="clr-namespace:ProjektyElektronika.Client.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             d:DesignHeight="400" d:DesignWidth="600"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:FilterProjectsConverter x:Key="FilterProjectsConverter" />
     </UserControl.Resources>
     <Grid>
-
-        <StackPanel Margin="5">
-            
-        </StackPanel>
-        <StackPanel VerticalAlignment="Bottom">
-            <Button IsEnabled="{Binding IsOnline}" Command="{Binding AddProjectCommand}" Content="Wyślij"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
             <Border Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
                 <Label Foreground="WhiteSmoke">Jesteś w trybie offline.</Label>
             </Border>
+            <TextBlock Text="Wyszukaj:" Margin="115,8,8,11"/>
+            <Grid Margin="8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Button  Content="↩ Powrót" Command="{Binding GoBackCommand}"/>
+                <TextBox Grid.Column="2" x:Name="filterTextBox" Height="28" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
+                <Button Grid.Column="4" Content="➕ Dodaj" Command="{Binding AddProjectCommand}" IsEnabled="{Binding IsOnline}"/>
+            </Grid>
         </StackPanel>
+        <ScrollViewer Grid.Row="1" >
+            <Grid>
+                <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
+
+                <ItemsControl Margin="5">
+                    <ItemsControl.ItemsSource>
+                        <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
+                            <Binding Path="Projects" />
+                            <Binding ElementName="filterTextBox" Path="Text" />
+                        </MultiBinding>
+                    </ItemsControl.ItemsSource>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+
+                                    <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DeleteProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:AdminView}}" 
+                                            CommandParameter="{Binding .}" Content="❌ Usuń" Background="IndianRed" FontSize="14"  BorderThickness="0 0 0 3" BorderBrush="Red"
+                                            IsEnabled="{Binding DataContext.IsOnline, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}" />
+
+                                    <TextBlock  Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
+                                    <TextBlock  Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

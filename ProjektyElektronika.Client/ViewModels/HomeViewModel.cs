@@ -18,16 +18,18 @@ namespace ProjektyElektronika.Client.ViewModels
         private readonly IDataProvider _dataProvider;
         private readonly Navigation _navigation;
 
-        public HomeViewModel(IDataProvider dataProvider, OnlineDetector onlineDetector, Navigation navigation)
+        public HomeViewModel(IDataProvider dataProvider, IOnlineDetector onlineDetector, Navigation navigation)
         {
             _dataProvider = dataProvider;
             _navigation = navigation;
             DownloadProjectCommand = new AsyncCommand<Project>(DownloadProject);
             OpenProjectCommand = new AsyncCommand<Project>(OpenProject);
             OpenAdminWindowCommand = new Command(OpenAdminWindow);
-            LoadList();
 
+            IsOnline = onlineDetector.IsOnline;
             onlineDetector.OnOnlineChanged += OnOnlineChanged;
+
+            LoadList();
         }
 
         private void OnOnlineChanged(bool isonline)

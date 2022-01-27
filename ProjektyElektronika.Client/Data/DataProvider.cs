@@ -12,8 +12,9 @@ namespace ProjektyElektronika.Client.Data
         private OnlineDataProvider _onlineDataProvider = new();
         private OfflineDataProvider _offlineDataProvider = new();
 
-        public DataProvider(OnlineDetector onlineDetector)
+        public DataProvider(IOnlineDetector onlineDetector)
         {
+            IsOnline = onlineDetector.IsOnline;
             onlineDetector.OnOnlineChanged += online => IsOnline = online;
         }
 
@@ -72,6 +73,12 @@ namespace ProjektyElektronika.Client.Data
         public async Task OpenProject(Project project)
         {
             await _offlineDataProvider.OpenProject(project);
+        }
+
+        public async Task DeleteProject(Project project)
+        {
+            await _offlineDataProvider.DeleteProject(project);
+            await _onlineDataProvider.DeleteProject(project);
         }
     }
 }

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -18,16 +15,27 @@ namespace ProjektyElektronika.Client.ViewModels
 {
     public class AddProjectViewModel : BaseViewModel
     {
+        private readonly Navigation _navigation;
         private readonly IDataProvider _dataProvider;
 
-        public AddProjectViewModel(OnlineDetector onlineDetector, IDataProvider dataProvider)
+        public AddProjectViewModel(Navigation navigation, IOnlineDetector onlineDetector, IDataProvider dataProvider)
         {
+            _navigation = navigation;
             _dataProvider = dataProvider;
+
+            IsOnline = onlineDetector.IsOnline;
             onlineDetector.OnOnlineChanged += isOnline => IsOnline = isOnline;
 
             AddProjectCommand = new AsyncCommand(AddProject);
             SelectFileCommand = new Command(SelectFile);
+            GoBackCommand = new Command(GoBack);
+
             LoadData();
+        }
+
+        private void GoBack()
+        {
+            _navigation.Navigate<AdminViewModel>();
         }
 
         private async Task LoadData()
@@ -62,7 +70,7 @@ namespace ProjektyElektronika.Client.ViewModels
             {
                 var fileuploader = new ProjectUploader();
                 await fileuploader.UploadProject(Project);
-                CloseWindow();
+                _navigation.Navigate<AdminViewModel>();
             }
             catch(Exception ex)
             {
@@ -100,6 +108,6 @@ namespace ProjektyElektronika.Client.ViewModels
 
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
-        public Action CloseWindow { get; set; }
+        public ICommand GoBackCommand { get; }
     }
 }

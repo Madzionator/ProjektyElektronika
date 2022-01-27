@@ -11,5 +11,6 @@ namespace ProjektyElektronika.Client.Data
         Task<List<String>> GetCategoryList();
         Task DownloadProject(Project project);
         Task OpenProject(Project project);
+        Task DeleteProject(Project project);
     }
 }
