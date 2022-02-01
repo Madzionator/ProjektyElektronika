@@ -53,9 +53,18 @@ namespace ProjektyElektronika.Client.Data
 
         public async Task DeleteProject(Project project)
         {
+            if (!project.IsDownloaded)
+                return;
+
             var projects = GetProjectList();
             projects.RemoveAll(x => x.Id == project.Id);
             SaveProjectList(projects);
+
+            var file = new FileInfo(project.LocalAddress);
+            if (file.Exists)
+                file.Delete();
+            if (file.Directory?.Exists == true)
+                file.Directory.Delete();
         }
     }
 }

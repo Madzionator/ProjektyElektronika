@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
              xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600" 
              x:Name="root">
     <UserControl.Resources>
@@ -21,7 +22,16 @@
             <Border Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
                 <Label Foreground="WhiteSmoke">Jesteś w trybie offline.</Label>
             </Border>
-            <TextBlock Text="Wyszukaj:" Margin="8,8,8,11"/>
+            <Grid Margin="8,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Wyszukaj:"/>
+                <CheckBox HorizontalAlignment="Right" x:Name="isDiplomaCheckBox" FlowDirection="RightToLeft" IsThreeState="True">Projekty dyplomowe</CheckBox>
+            </Grid>
+          
             <Grid Margin="8,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -39,12 +49,12 @@
                     <ColumnDefinition Width="226*"/>
                 </Grid.ColumnDefinitions>
                 <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" Grid.Column="1" HorizontalAlignment="Left" Margin="129,0,0,0" />
-
                 <ItemsControl Margin="5,5,5,5" Grid.ColumnSpan="2">
                     <ItemsControl.ItemsSource>
-                        <MultiBinding Converter="{StaticResource FilterProjectsConverter}">
+                        <MultiBinding Converter="{StaticResource FilterProjectsConverter}" TargetNullValue="xd">
                             <Binding Path="Projects" />
                             <Binding ElementName="filterTextBox" Path="Text" />
+                            <Binding ElementName="isDiplomaCheckBox" Path="IsChecked"/>
                         </MultiBinding>
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemTemplate>
@@ -56,14 +66,22 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="3*" />
                                         <ColumnDefinition MaxWidth="150" MinWidth="50" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
 
-                                    <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}" 
+                                    <wpf:TextBlock HorizontalAlignment="Left" Grid.RowSpan="2" FontSize="27" Text="🎓"  TextAlignment="Center" 
+                                                   Visibility="{Binding IsDiploma, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
+                                    <wpf:TextBlock Grid.RowSpan="2" FontSize="24" Text="📝"  TextAlignment="Center" LineHeight="24"
+                                                   Visibility="{Binding IsDiploma, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap" />
+   
+                                    <TextBlock Grid.Column="1" Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+
+                                    <Button Grid.Column="2" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}" 
                                             CommandParameter="{Binding .}" Content="Pobierz" Background="DeepSkyBlue" FontSize="14"  BorderThickness="0 0 0 3" BorderBrush="DarkSlateBlue"
                                             Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
 
@@ -71,8 +89,8 @@
                                             CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold" BorderThickness="0 0 0 3" BorderBrush="#579b40"
                                             Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 
-                                    <TextBlock  Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
-                                    <TextBlock  Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

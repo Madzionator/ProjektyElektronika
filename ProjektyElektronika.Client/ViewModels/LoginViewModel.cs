@@ -16,6 +16,12 @@ namespace ProjektyElektronika.Client.ViewModels
         {
             _navigation = navigation;
             LoginCommand = new AsyncCommand<PasswordBox>(Login);
+            GoBackCommand = new Command(GoBack);
+        }
+
+        private void GoBack()
+        {
+            _navigation.Navigate<HomeViewModel>();
         }
 
         private async Task Login(PasswordBox passwordBox)
@@ -36,5 +42,6 @@ namespace ProjektyElektronika.Client.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand GoBackCommand { get; }
     }
 }

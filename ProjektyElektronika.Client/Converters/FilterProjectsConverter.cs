@@ -11,7 +11,7 @@ namespace ProjektyElektronika.Client.Converters
 {
     class FilterProjectsConverter : IMultiValueConverter
     {
-        private const int FuzzySearchThreshold = 50;
+        private const int FuzzySearchThreshold = 60;
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -19,8 +19,14 @@ namespace ProjektyElektronika.Client.Converters
             {
                 var projects = (List<Project>)values[0];
                 var filterString = (string)values[1];
+                bool? isDiploma = (bool?)values[2] switch
+                {
+                    true => true,
+                    false => null,
+                    null => false
+                };
 
-                return UseFilter(projects, filterString);
+                return UseFilter(projects, filterString, isDiploma);
             }
             catch
             {
@@ -29,15 +35,15 @@ namespace ProjektyElektronika.Client.Converters
 
         }
 
-        private List<Project> UseFilter(List<Project> projects, string filterString)
+        private List<Project> UseFilter(List<Project> projects, string filterString, bool? isDiploma)
         {
-            if (filterString is null or { Length: <1 }) 
-            {
-                return projects;
-            }
-
             int Filter(Project project)
             {
+                if (filterString is null or { Length: < 1 })
+                {
+                    return 100;
+                }
+
                 var searchString = $"{project.Title} | {project.AcademicYear} | {project.Author} | {project.Category}";
                 int ratio = 0;
                 
@@ -52,18 +58,9 @@ namespace ProjektyElektronika.Client.Converters
             }
 
             return projects
+                .Where(x=>isDiploma is null || isDiploma == x.IsDiploma)
                 .Select(x=>(project:x, ratio:Filter(x)))
                 .OrderByDescending(x=>x.ratio)
-                 //.Select(x =>
-                 //{
-                 //    Debug.WriteLine($"{x.ratio} {x.project.Title} | {x.project.AcademicYear} | {x.project.Author} | {x.project.Category}");
-                 //    return x;
-                 //})
-                //.Select(x =>
-                //{
-                //    x.project.Title = $"{x.ratio}% {x.project.Title}";
-                //    return x;
-                //})
                 .Where(x=>x.ratio > FuzzySearchThreshold)
                 .Select(x=>x.project)
                 .ToList();

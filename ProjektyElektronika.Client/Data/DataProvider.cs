@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.Data
 {
     class DataProvider : IDataProvider
     {
+        private readonly ILogger<DataProvider> _logger;
         private OnlineDataProvider _onlineDataProvider = new();
         private OfflineDataProvider _offlineDataProvider = new();
 
-        public DataProvider(IOnlineDetector onlineDetector)
+        public DataProvider(IOnlineDetector onlineDetector, ILogger<DataProvider> logger)
         {
+            _logger = logger;
             IsOnline = onlineDetector.IsOnline;
             onlineDetector.OnOnlineChanged += online => IsOnline = online;
         }
@@ -31,6 +34,7 @@ namespace ProjektyElektronika.Client.Data
 
                 var dict = _offlineDataProvider.GetProjectList().ToDictionary(x=>x.Id, x=>x);
                 var projects = await _onlineDataProvider.GetProjectList();
+                _logger.LogDebug($"Retrieved {projects.Count} projects");
                 foreach (var project in projects)
                 {
                     if(!dict.ContainsKey(project.Id))
