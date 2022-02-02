@@ -7,16 +7,19 @@
              xmlns:conv="clr-namespace:ProjektyElektronika.Client.Converters"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600" 
              x:Name="root">
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <conv:FilterProjectsConverter x:Key="FilterProjectsConverter" />
+        <system:Int32 x:Key="Plus1">1</system:Int32>
+        <system:Int32 x:Key="Minus1">-1</system:Int32>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel>
             <Border Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
@@ -29,7 +32,7 @@
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Wyszukaj:"/>
-                <CheckBox HorizontalAlignment="Right" x:Name="isDiplomaCheckBox" FlowDirection="RightToLeft" IsThreeState="True">Projekty dyplomowe</CheckBox>
+                <CheckBox HorizontalAlignment="Right" IsChecked="{Binding IsDiploma}" FlowDirection="RightToLeft" IsThreeState="True">Projekty dyplomowe</CheckBox>
             </Grid>
           
             <Grid Margin="8,0">
@@ -38,7 +41,7 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="filterTextBox" Height="28" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
+                <TextBox Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"  Height="28" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
                 <Button Grid.Column="2" Content="Zarządzaj" Command="{Binding OpenAdminWindowCommand}" IsEnabled="{Binding IsOnline}"/>
             </Grid>
         </StackPanel>
@@ -49,14 +52,7 @@
                     <ColumnDefinition Width="226*"/>
                 </Grid.ColumnDefinitions>
                 <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" Grid.Column="1" HorizontalAlignment="Left" Margin="129,0,0,0" />
-                <ItemsControl Margin="5,5,5,5" Grid.ColumnSpan="2">
-                    <ItemsControl.ItemsSource>
-                        <MultiBinding Converter="{StaticResource FilterProjectsConverter}" TargetNullValue="xd">
-                            <Binding Path="Projects" />
-                            <Binding ElementName="filterTextBox" Path="Text" />
-                            <Binding ElementName="isDiplomaCheckBox" Path="IsChecked"/>
-                        </MultiBinding>
-                    </ItemsControl.ItemsSource>
+                <ItemsControl Margin="5,5,5,5" Grid.ColumnSpan="2" ItemsSource="{Binding FilteredProjects}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
@@ -98,5 +94,15 @@
                 </ItemsControl>
             </Grid>
         </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding ChangePageCommand}" CommandParameter="{StaticResource Minus1}">◀</Button>
+            <Rectangle Width="20" />
+            <Label>Strona</Label>
+            <TextBox Text="{Binding Page, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label>z</Label>
+            <Label Content="{Binding MaxPages}"/>
+            <Rectangle Width="20" />
+            <Button Command="{Binding ChangePageCommand}" CommandParameter="{StaticResource Plus1}">▶</Button>
+        </StackPanel>
     </Grid>
 </UserControl>

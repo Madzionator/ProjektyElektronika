@@ -13,12 +13,13 @@ using ProjektyElektronika.Client.Views;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeViewModel : BaseProjectListViewModel
     {
         private readonly IDataProvider _dataProvider;
         private readonly Navigation _navigation;
 
         public HomeViewModel(IDataProvider dataProvider, IOnlineDetector onlineDetector, Navigation navigation)
+            : base(dataProvider)
         {
             _dataProvider = dataProvider;
             _navigation = navigation;
@@ -45,12 +46,6 @@ namespace ProjektyElektronika.Client.ViewModels
             set => SetProperty(ref _isOnline, value);
         }
 
-        private List<Project> _projects = new();
-        public List<Project> Projects
-        {
-            get => _projects;
-            set => SetProperty(ref _projects, value);
-        }
 
         public ICommand DownloadProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
@@ -64,7 +59,7 @@ namespace ProjektyElektronika.Client.ViewModels
         private async Task DownloadProject(Project project)
         {
             await _dataProvider.DownloadProject(project);
-            Projects = Projects.ToList();
+            Filter();
         }
 
         private async Task OpenProject(Project project)
@@ -77,13 +72,6 @@ namespace ProjektyElektronika.Client.ViewModels
             {
                 MessageBox.Show($"Wystąpił błąd. Treść błędu: {ex}");
             }
-        }
-
-        private async Task LoadList()
-        {
-            IsBusy = true;
-            Projects = await _dataProvider.GetProjectList();
-            IsBusy = false;
         }
     }
 }

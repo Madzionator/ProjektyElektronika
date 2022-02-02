@@ -10,12 +10,13 @@ using ProjektyElektronika.Client.Models;
 
 namespace ProjektyElektronika.Client.ViewModels
 {
-    public class AdminViewModel : BaseViewModel
+    public class AdminViewModel : BaseProjectListViewModel
     {
         private readonly Navigation _navigation;
         private readonly IDataProvider _dataProvider;
 
         public AdminViewModel(Navigation navigation, IOnlineDetector onlineDetector, IDataProvider dataProvider)
+            : base(dataProvider)
         {
             _navigation = navigation;
             _dataProvider = dataProvider;
@@ -24,14 +25,14 @@ namespace ProjektyElektronika.Client.ViewModels
             onlineDetector.OnOnlineChanged += delegate(bool isOnline)
             {
                 IsOnline = isOnline;
-                LoadData();
+                LoadList();
             };
 
             AddProjectCommand = new Command(OpenAddProjectWindow);
             GoBackCommand = new Command(GoBack);
             DeleteProjectCommand = new AsyncCommand<Project>(DeleteProject);
 
-            LoadData();
+            LoadList();
         }
 
         private async Task DeleteProject(Project project)
@@ -40,7 +41,7 @@ namespace ProjektyElektronika.Client.ViewModels
             try
             {
                 await _dataProvider.DeleteProject(project);
-                await LoadData();
+                await LoadList();
             }
             catch (Exception ex)
             {
@@ -60,12 +61,6 @@ namespace ProjektyElektronika.Client.ViewModels
             _navigation.Navigate<AddProjectViewModel>();
         }
 
-        private async Task LoadData()
-        {
-            IsBusy = true;
-            Projects = await _dataProvider.GetProjectList();
-            IsBusy = false;
-        }
 
         private bool _isOnline = false;
         public bool IsOnline
@@ -73,14 +68,7 @@ namespace ProjektyElektronika.Client.ViewModels
             get => _isOnline;
             set => SetProperty(ref _isOnline, value);
         }
-
-        private List<Project> _projects;
-        public List<Project> Projects
-        {
-            get => _projects;
-            set => SetProperty(ref _projects, value);
-        }
-
+        
         public ICommand GoBackCommand { get; }
         public ICommand AddProjectCommand { get; }
         public ICommand DeleteProjectCommand { get; }
