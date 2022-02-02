@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ProjektyElektronika.Client"
         xmlns:viewmodels="clr-namespace:ProjektyElektronika.Client.ViewModels"
         xmlns:views="clr-namespace:ProjektyElektronika.Client.Views"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Projekty - elektronika" Height="450" Width="800">
     <Grid>
@@ -24,6 +25,6 @@
             </DataTemplate>
         </Grid.Resources>
 
-        <ContentControl Content="{Binding CurrentViewModel}" />
+        <mah:TransitioningContentControl  Content="{Binding CurrentViewModel}" Transition="Default" />
     </Grid>
 </Window>

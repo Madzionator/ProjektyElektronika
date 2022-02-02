@@ -58,10 +58,15 @@ namespace ProjektyElektronika.Client.ViewModels
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                var file = new FileInfo(openFileDialog.FileName);
-                Project.LocalAddress = openFileDialog.FileName;
-                FileName = file.Name;
+                SetFile(openFileDialog.FileName);
             }
+        }
+
+        public void SetFile(string filepath)
+        {
+            var file = new FileInfo(filepath);
+            Project.LocalAddress = filepath;
+            FileName = file.Name;
         }
 
         private async Task AddProject()
