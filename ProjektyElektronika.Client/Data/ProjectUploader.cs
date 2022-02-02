@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using ProjektyElektronika.Client.Models;
 
@@ -18,16 +19,19 @@ namespace ProjektyElektronika.Client.Data
         public async Task UploadProject(Project project)
         {
             var file = new FileInfo(project.LocalAddress);
-            var fileContent = new StreamContent(file.OpenRead())
+            var fileContent =  new StreamContent(file.OpenRead())
             {
                 Headers =
                 {
                     ContentLength = file.Length,
                 }
             };
+            fileContent.Headers.Add("Content-Disposition",
+                new string(Encoding.UTF8.GetBytes($"form-data; name=\"{file.Name}\"; filename=\"{file.Name}\"").
+                    Select(b => (char)b).ToArray()));
 
             var formDataContent = new MultipartFormDataContent();
-            formDataContent.Add(fileContent, "file", file.Name);          // file
+            formDataContent.Add(fileContent, "file", HttpUtility.UrlPathEncode(file.Name));          // file
 
             var json = JsonConvert.SerializeObject(project);
             formDataContent.Add(new StringContent(json), "json");   // form input
