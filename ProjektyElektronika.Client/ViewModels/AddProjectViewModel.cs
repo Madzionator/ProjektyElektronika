@@ -50,7 +50,7 @@ namespace ProjektyElektronika.Client.ViewModels
         public bool IsOnline
         {
             get => _isOnline;
-            set => SetProperty(ref _isOnline, value);
+            set => SetProperty(ref _isOnline, value, onChanged: () => OnPropertyChanged(nameof(CanAddProject)));
         }
 
         private void SelectFile()
@@ -66,6 +66,8 @@ namespace ProjektyElektronika.Client.ViewModels
 
         private async Task AddProject()
         {
+            IsBusy = true;
+            OnPropertyChanged(nameof(CanAddProject));
             try
             {
                 var fileuploader = new ProjectUploader();
@@ -76,6 +78,8 @@ namespace ProjektyElektronika.Client.ViewModels
             {
                 MessageBox.Show($"Nie udało się dodać projektu.\n{ex.Message}", "Błąd");
             }
+            IsBusy = false;
+            OnPropertyChanged(nameof(CanAddProject));
         }
 
         private Project _project = new() { AcademicYear = DateTime.Now.Year };
@@ -109,5 +113,7 @@ namespace ProjektyElektronika.Client.ViewModels
         public ICommand AddProjectCommand { get; }
         public ICommand SelectFileCommand { get; }
         public ICommand GoBackCommand { get; }
+
+        public bool CanAddProject => !IsBusy && IsOnline;
     }
 }

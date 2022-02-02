@@ -39,7 +39,7 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <Button  Content="↩ Powrót" Command="{Binding GoBackCommand}"/>
+                <Button  IsCancel="True"   Content="↩ Powrót" Command="{Binding GoBackCommand}"/>
                 <TextBox Grid.Column="2" x:Name="filterTextBox" Height="28" FontSize="14" MaxLines="1"  mah:TextBoxHelper.ClearTextButton="True"/>
                 <Button Grid.Column="4" Content="➕ Dodaj" Command="{Binding AddProjectCommand}" IsEnabled="{Binding IsOnline}"/>
             </Grid>

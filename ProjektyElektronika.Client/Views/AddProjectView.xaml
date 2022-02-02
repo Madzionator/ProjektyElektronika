@@ -5,12 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:ProjektyElektronika.Client.Views"
              xmlns:converters="clr-namespace:ProjektyElektronika.Client.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <Button  Content="↩ Powrót" Command="{Binding GoBackCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        <Button  IsCancel="True"   Content="↩ Powrót" Command="{Binding GoBackCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
         <StackPanel Margin="5" MaxWidth="400">
             <Button Command="{Binding SelectFileCommand}" Content="Wybierz plik"/>
             <TextBox IsEnabled="False" TextAlignment="Center"  Text="{Binding FileName}" />
@@ -32,10 +33,11 @@
            
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" >
-            <Button IsEnabled="{Binding IsOnline}" Command="{Binding AddProjectCommand}" Content="Wyślij" MaxWidth="400"/>
+            <Button IsEnabled="{Binding CanAddProject}" Command="{Binding AddProjectCommand}" Content="Wyślij" MaxWidth="400"/>
             <Border Background="OrangeRed" Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
                 <Label Foreground="WhiteSmoke">Jesteś w trybie offline.</Label>
             </Border>
         </StackPanel>
+        <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsBusy}" />
     </Grid>
 </UserControl>

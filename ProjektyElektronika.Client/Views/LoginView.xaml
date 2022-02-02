@@ -12,7 +12,7 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <Button  Content="↩ Powrót" Command="{Binding GoBackCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" />
+        <Button IsCancel="True" Content="↩ Powrót" Command="{Binding GoBackCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" />
         <Border CornerRadius="5" BorderBrush="#333333"  MaxWidth="130" BorderThickness=" 1" VerticalAlignment="Center">
         <StackPanel Margin="5">
             <TextBlock Text="Hasło" TextAlignment="Center" Margin="0 4 0 8" />
