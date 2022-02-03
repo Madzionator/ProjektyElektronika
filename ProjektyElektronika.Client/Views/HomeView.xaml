@@ -63,7 +63,8 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="100" />
                                         <ColumnDefinition MaxWidth="150" MinWidth="50" />
                                     </Grid.ColumnDefinitions>
 
@@ -75,18 +76,18 @@
 
                                     <TextBlock Grid.Column="1" Text="{Binding Title, StringFormat=Tytuł: {0}}" Grid.Row="0"  FontWeight="Bold" FontSize="14" TextWrapping="Wrap" />
    
-                                    <TextBlock Grid.Column="1" Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding AcademicYear, StringFormat=Wykonano: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
 
-                                    <Button Grid.Column="2" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}" 
+                                    <Button Grid.Column="3" Grid.RowSpan="2" Command="{Binding DataContext.DownloadProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}" 
                                             CommandParameter="{Binding .}" Content="Pobierz" Background="DeepSkyBlue" FontSize="14"  BorderThickness="0 0 0 3" BorderBrush="DarkSlateBlue"
                                             Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
 
-                                    <Button Grid.Column="2"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}"
+                                    <Button Grid.Column="3"  Grid.RowSpan="2"  Command="{Binding DataContext.OpenProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=local:HomeView}}"
                                             CommandParameter="{Binding .}" Content="Otwórz" Background="#67CB50" FontSize="14" FontWeight="Bold" BorderThickness="0 0 0 3" BorderBrush="#579b40"
                                             Visibility="{Binding IsDownloaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Author, StringFormat=Autor: {0}}"  Margin="2,0,10,0"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                                    <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Text="{Binding Category, StringFormat=Kategoria: {0}}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

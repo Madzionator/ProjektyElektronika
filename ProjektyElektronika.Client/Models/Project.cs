@@ -20,7 +20,7 @@ namespace ProjektyElektronika.Client.Models
         public string Category { get; set; }
        
         [JsonProperty("academic_year")]
-        public int AcademicYear { get; set; } // delet this
+        public int AcademicYear { get; set; }
         
         [JsonProperty("is_diploma")]
         public bool IsDiploma { get; set; }

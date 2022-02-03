@@ -44,11 +44,5 @@ namespace ProjektyElektronika.Client.Data
                 throw new Exception($"Błąd serwera {response.StatusCode:D}: {response.StatusCode}");
             }
         }
-
-        public async Task AddCategory(string category)
-        {
-            var client = WebHelpers.CreateClient();
-            await client.PostAsync($"admin/add_category/{category}", new StringContent(string.Empty));
-        }
     }
 }

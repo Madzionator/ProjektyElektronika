@@ -8,7 +8,8 @@
         xmlns:views="clr-namespace:ProjektyElektronika.Client.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Projekty - elektronika" Height="450" Width="800">
+        MinHeight="300" MinWidth="500"
+        Title="Projekty - elektronika" Height="550" Width="900">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
